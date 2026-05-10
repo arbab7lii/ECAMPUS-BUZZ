@@ -1,0 +1,47 @@
+{
+  "name": "@ecampus-buzz/api",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "tsx watch src/app.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/app.js",
+    "prisma:validate": "prisma validate",
+    "prisma:generate": "prisma generate",
+    "postinstall": "prisma generate",
+    "lint": "echo \"No linter configured yet\"",
+    "typecheck": "tsc --noEmit",
+    "clean": "rimraf dist"
+  },
+  "dependencies": {
+    "@ecampus-buzz/types": "file:../../packages/types",
+    "@prisma/client": "^5.22.0",
+    "bcryptjs": "^3.0.3",
+    "compression": "^1.8.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.1.0",
+    "express-rate-limit": "^8.5.1",
+    "helmet": "^8.1.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.3",
+    "prisma": "^5.22.0",
+    "winston": "^3.19.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@ecampus-buzz/tsconfig": "file:../../packages/config/tsconfig",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/compression": "^1.8.1",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/cors": "^2.8.18",
+    "@types/express": "^5.0.3",
+    "@types/hpp": "^0.2.7",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.0.0",
+    "rimraf": "^6.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "latest"
+  }
+}

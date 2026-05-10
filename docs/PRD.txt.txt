@@ -1,0 +1,584 @@
+ECAMPUS Buzz — Master Product Requirements Document (PRD)
+1. Product Overview
+Product Name
+ECAMPUS Buzz
+Product Vision
+ECAMPUS Buzz is a mobile-first campus social ecosystem where students can discover clubs, participate in discussions, vote in polls, attend events, and collaborate inside structured micro-communities.
+The platform combines:
+* Club ecosystems
+* Social feeds
+* Poll systems
+* Event systems
+* Community moderation
+* Student engagement tools
+The product direction is:
+* futuristic
+* immersive
+* premium
+* motion-heavy
+* highly interactive
+* visually clean
+* modern dark UI
+The final UI should feel closer to:
+* premium startup websites
+* modern 3D portfolio experiences
+* interactive community platforms
+NOT like:
+* traditional university portals
+* plain dashboards
+* generic bootstrap websites
+
+2. Design Direction
+Core Visual Direction
+The platform must feel:
+* futuristic
+* cinematic
+* premium
+* interactive
+* fluid
+* modern
+Design Style Requirements
+UI Style
+* Dark-themed primary UI
+* Glassmorphism where appropriate
+* Smooth gradients
+* Floating cards
+* Rounded corners
+* Soft glow effects
+* Blur overlays
+* Depth-based layering
+* Smooth animations
+* Minimal clutter
+Motion Requirements
+* Framer Motion animations
+* Smooth page transitions
+* Scroll-based reveals
+* Hover interactions
+* Animated feed loading
+* Animated poll bars
+* Micro-interactions on buttons
+* Smooth modal transitions
+3D Requirements
+* Optional Three.js sections
+* Interactive hero backgrounds
+* Particle systems
+* Ambient lighting effects
+* Floating objects
+* Depth illusion elements
+Performance Rules
+Despite futuristic UI:
+* website must remain fast
+* animations should not block interaction
+* lazy-load heavy assets
+* avoid unnecessary 3D everywhere
+3D should enhance sections, not overload the product.
+
+3. Product Goals
+Primary Goals
+* Allow students to discover clubs
+* Allow students to join communities
+* Enable content creation inside clubs
+* Enable campus engagement
+* Create scalable student ecosystems
+Secondary Goals
+* Improve campus communication
+* Encourage student participation
+* Centralize student communities
+* Improve discoverability of activities
+
+4. MVP Scope
+Included in MVP
+* Authentication
+* Clubs system
+* Posts system
+* Polls system
+* Events system
+* Notifications system
+* Reporting system
+* Saved posts/events/polls
+* Search system
+* Activity feed
+* Responsive design
+* Role-based permissions
+Excluded From MVP
+* Direct messaging
+* AI recommendations
+* Realtime chat
+* Livestreaming
+* Marketplace
+* Campus maps
+* Video reels
+* Payment systems
+* Gamification
+
+5. User Roles
+Platform Roles
+Student
+Default user role.
+Capabilities:
+* join clubs
+* create posts
+* create polls
+* create events
+* save content
+* report content
+Club Admin
+Club-level moderator.
+Capabilities:
+* approve members
+* remove members
+* moderate posts
+* manage club settings
+* promote users
+Super Admin
+Platform-wide moderation.
+Capabilities:
+* delete clubs
+* suspend users
+* view reports
+* platform moderation
+* analytics access
+
+6. Authentication Module
+Features
+* Signup
+* Login
+* Logout
+* Forgot password
+* Session management
+* JWT authentication
+Future Scope
+* Google OAuth
+* College email verification
+* Magic links
+Validation Rules
+* unique email required
+* password minimum length
+* secure hashing using bcrypt
+
+7. Clubs Module
+Purpose
+Clubs are micro-communities where students collaborate.
+Each club contains:
+* posts
+* polls
+* events
+* members
+* admins
+
+Club Features
+Public Clubs
+Anyone can join instantly.
+Private Clubs
+Users must request approval.
+Club Feed
+Contains:
+* posts
+* events
+* polls
+Club Member Management
+Admins can:
+* approve users
+* remove users
+* promote admins
+
+Club Database Fields
+FieldTypeidUUIDnameStringslugStringlogoImagecoverImageImagedescriptionTexttagsArrayvisibilityEnumcreatedByUserIdcreatedAtTimestamp
+Club UX Requirements
+Club Header
+Must include:
+* cover image
+* logo
+* member count
+* tags
+* club description
+* join button
+* admin indicators
+Club Feed Tabs
+* Posts
+* Events
+* Polls
+* Members
+Join States
+* Join
+* Requested
+* Joined
+* Rejected
+
+8. Posts Module
+Features
+* Create post inside club
+* Rich text editor
+* Upload media
+* Save post
+* Report post
+* Delete own post
+
+Post Fields
+FieldTypeidUUIDclubIdUUIDcreatedByUUIDtitleStringcontentRichTextmediaArraytagsArraycreatedAtTimestampupdatedAtTimestamp
+Media Constraints
+Images
+* max 5 images
+* jpg
+* png
+* webp
+Videos
+* optional MVP
+* max size 100MB
+Attachments
+* pdf
+* docx
+* ppt
+
+Post UX
+Feed Card
+Must include:
+* author
+* club name
+* timestamp
+* media preview
+* save button
+* report button
+Interactions
+* smooth hover animations
+* expandable media
+* animated loading states
+
+9. Polls Module
+Features
+* Create poll
+* Vote once
+* Expiry support
+* Animated result bars
+* Club-specific polls
+* Public polls
+
+Poll Fields
+FieldTypeidUUIDquestionStringoptionsArrayvotesArrayvotersArraycreatedByUUIDclubIdUUIDvisibilityEnumexpiresAtTimestampcreatedAtTimestamp
+Poll Validation Rules
+* minimum 2 options
+* maximum 5 options
+* no duplicate voting
+* no editing after expiry
+
+Poll UX
+Voting State
+* selectable options
+* animated selection
+* loading indicator
+Result State
+* animated bars
+* percentages
+* vote counts
+Expired State
+* disable voting
+* show final result
+
+10. Events Module
+Features
+* Create events
+* RSVP support
+* Event feed
+* Club events
+
+Event Fields
+FieldTypeidUUIDtitleStringdescriptionTexteventDateTimestamplocationStringcreatedByUUIDclubIdUUIDcreatedAtTimestamp
+11. Notifications Module
+Notification Types
+* join requests
+* approvals
+* new post alerts
+* poll alerts
+* event alerts
+* promotions
+* removals
+
+Notification Preferences
+Users can:
+* mute clubs
+* disable notifications
+* manage preferences
+
+Notification Fields
+FieldTypeidUUIDrecipientIdUUIDtypeStringmessageStringisReadBooleancreatedAtTimestamp
+12. Reporting & Moderation System
+Report Targets
+* users
+* posts
+* polls
+* clubs
+
+Report Reasons
+* spam
+* harassment
+* NSFW
+* fake information
+* other
+
+Moderation Actions
+* remove content
+* suspend user
+* delete club
+* reject report
+* warn user
+
+Moderation Fields
+FieldTypeidUUIDtargetIdUUIDtargetTypeEnumreasonEnumreportedByUUIDstatusEnumcreatedAtTimestamp
+13. Search System
+Search Targets
+* clubs
+* posts
+* tags
+
+Search UX
+* debounced search
+* live suggestions
+* animated results
+* recent searches
+* empty states
+
+14. Saved Content Module
+Saveable Content
+* posts
+* polls
+* events
+
+Saved Section
+Users can access:
+* saved posts
+* saved events
+* saved polls
+
+15. Activity Feed Module
+Activity Examples
+* user joined club
+* poll created
+* event created
+* user promoted
+* club announcement
+
+Feed Requirements
+* infinite scroll
+* pagination
+* lazy loading
+* smooth animations
+
+16. Frontend Architecture
+Frontend Stack
+* Next.js 16
+* TypeScript
+* Tailwind CSS
+* Framer Motion
+* Zustand or Redux Toolkit
+
+UI Libraries
+Optional:
+* shadcn/ui
+* Radix UI
+* Lucide icons
+
+Animation Libraries
+* Framer Motion
+* GSAP optional
+
+3D Libraries
+Optional:
+* Three.js
+* React Three Fiber
+Use carefully. Do not overload feeds with heavy rendering.
+
+17. Frontend Structure
+Core Pages
+RoutePurpose/Home feed/clubsClub directory/clubs/[slug]Club page/pollsPoll feed/eventsEvents page/notificationsNotification center/savedSaved content/profileUser profile/adminAdmin dashboard
+Shared Components
+Navigation
+* floating navbar
+* mobile bottom navigation
+* responsive sidebar
+Utility Components
+* modals
+* toast notifications
+* skeleton loaders
+* infinite feed loader
+* empty state cards
+
+Mobile UX Rules
+Mobile-First Design
+Primary design target:
+* phones first
+* tablets second
+* desktop third
+Mobile Navigation
+Use:
+* bottom navigation
+* floating action buttons
+* swipe-friendly spacing
+
+18. Backend Architecture
+Backend Stack
+* Node.js
+* Express.js
+* PostgreSQL
+* Prisma ORM
+
+Services
+* Auth Service
+* Club Service
+* Poll Service
+* Event Service
+* Notification Service
+* Moderation Service
+
+File Storage
+Use:
+* Cloudinary OR
+* AWS S3
+
+19. Database Schema Overview
+Users Table
+FieldTypeidUUIDnameStringemailStringpasswordHashStringroleEnumavatarStringcreatedAtTimestamp
+ClubMembership Table
+FieldTypeidUUIDuserIdUUIDclubIdUUIDroleEnumstatusEnum
+Posts Table
+FieldTypeidUUIDclubIdUUIDcreatedByUUIDtitleStringcontentTextcreatedAtTimestamp
+Polls Table
+FieldTypeidUUIDquestionStringexpiresAtTimestampclubIdUUID
+Notifications Table
+FieldTypeidUUIDrecipientIdUUIDmessageStringisReadBoolean
+Reports Table
+FieldTypeidUUIDtargetIdUUIDtargetTypeEnumreasonEnumreportedByUUID
+20. API Endpoints
+Auth APIs
+MethodEndpointPOST/api/auth/registerPOST/api/auth/loginPOST/api/auth/logout
+Club APIs
+MethodEndpointGET/api/clubsPOST/api/clubsGET/api/clubs/:slugPATCH/api/clubs/:idDELETE/api/clubs/:idPOST/api/clubs/:id/joinPOST/api/clubs/:id/request
+Post APIs
+MethodEndpointGET/api/postsPOST/api/postsDELETE/api/posts/:id
+Poll APIs
+MethodEndpointPOST/api/pollsPOST/api/polls/:id/voteGET/api/polls/:id
+Notification APIs
+MethodEndpointGET/api/notificationsPATCH/api/notifications/:id/read
+Report APIs
+MethodEndpointPOST/api/reportsGET/api/reports
+21. State Management
+Global State
+Use Zustand or Redux Toolkit.
+Global state includes:
+* auth user
+* notifications
+* club membership
+* saved items
+* theme state
+
+Server State
+Use:
+* React Query OR
+* SWR
+
+22. Performance Requirements
+Requirements
+* pagination everywhere
+* infinite scrolling
+* optimized database queries
+* lazy image loading
+* code splitting
+* CDN media delivery
+* debounced search
+
+23. Security Requirements
+Security Rules
+* bcrypt password hashing
+* JWT auth
+* protected routes
+* rate limiting
+* upload validation
+* RBAC middleware
+* sanitization
+
+24. Empty States
+Required Empty States
+* no clubs joined
+* no notifications
+* no posts
+* no polls
+* no search results
+* no saved items
+All empty states should:
+* feel polished
+* contain illustrations or animations
+* guide next action
+
+25. Edge Cases
+Clubs
+* duplicate join requests
+* admin leaves club
+* last admin removed
+Polls
+* voting after expiry
+* duplicate votes
+Uploads
+* unsupported file type
+* deleted uploads
+* oversized files
+Notifications
+* extremely large unread counts
+
+26. Responsive Requirements
+Devices
+Must support:
+* mobile
+* tablet
+* desktop
+
+Mobile Optimization
+* touch-friendly spacing
+* optimized gestures
+* bottom navigation
+* mobile modals
+
+27. Analytics (Future)
+Metrics
+* active users
+* club growth
+* poll participation
+* engagement rate
+* retention
+
+28. Future Scope
+Planned Features
+* AI summaries
+* AI moderation
+* realtime updates
+* DMs/chat
+* push notifications
+* event ticketing
+* video support
+* campus verification
+
+29. Deployment Architecture
+Frontend Hosting
+* Vercel
+Backend Hosting
+* Railway OR
+* Render OR
+* Supabase
+Database
+* PostgreSQL
+Media Storage
+* Cloudinary OR
+* AWS S3
+
+30. Final Product Direction
+ECAMPUS Buzz should feel like:
+* a premium startup product
+* a futuristic campus ecosystem
+* a modern social collaboration platform
+* an immersive student network
+The platform must prioritize:
+* performance
+* scalability
+* premium design
+* smooth UX
+* mobile-first interaction
+* modern frontend architecture
+The final experience should feel significantly above typical college portals and visually closer to high-end modern SaaS/community products.

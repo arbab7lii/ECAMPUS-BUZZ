@@ -1,0 +1,23 @@
+{
+  "name": "ecampus-buzz",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "packages/config/*"
+  ],
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "turbo run format",
+    "clean": "turbo run clean"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "latest"
+  },
+  "packageManager": "npm@latest"
+}

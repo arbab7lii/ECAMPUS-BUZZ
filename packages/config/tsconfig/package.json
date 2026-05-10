@@ -1,0 +1,16 @@
+{
+  "name": "@ecampus-buzz/tsconfig",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "build": "echo \"No build step required\"",
+    "typecheck": "echo \"No typecheck required\"",
+    "lint": "echo \"No linter configured yet\"",
+    "clean": "echo \"No build output to clean\""
+  },
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "node.json"
+  ]
+}
