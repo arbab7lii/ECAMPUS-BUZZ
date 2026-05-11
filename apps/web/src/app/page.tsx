@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { Card, CardContent } from "@/components/ui/card";
 
 export default function HomePage() {
@@ -11,6 +13,20 @@ export default function HomePage() {
           <p className="max-w-2xl text-sm sm:text-base">
             Design-system and infrastructure foundation is ready for the
             futuristic mobile-first product build.
+          </p>
+          <p className="flex flex-wrap gap-x-4 gap-y-2 text-sm font-medium">
+            <Link
+              href="/login"
+              className="text-[hsl(var(--primary))] underline-offset-4 hover:underline"
+            >
+              Sign in
+            </Link>
+            <Link
+              href="/signup"
+              className="text-[hsl(var(--accent))] underline-offset-4 hover:underline"
+            >
+              Create account
+            </Link>
           </p>
         </CardContent>
       </Card>
