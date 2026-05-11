@@ -18,6 +18,14 @@ export type AuthSuccessPayload = {
   accessToken: string;
 };
 
+type AuthMePayload = {
+  user: AuthUser;
+};
+
+type AuthRefreshPayload = {
+  accessToken: string;
+};
+
 export class AuthApiError extends Error {
   readonly status: number;
 
@@ -58,16 +66,8 @@ async function parseJson(res: Response): Promise<unknown> {
   }
 }
 
-async function postAuth<T>(path: string, body: unknown): Promise<T> {
-  const res = await fetch(authUrl(path), {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    credentials: "include"
-  });
-
+async function parseEnvelope<T>(res: Response): Promise<T> {
   const json = await parseJson(res);
-
   if (!res.ok) {
     throw new AuthApiError(res.status, extractMessage(json));
   }
@@ -78,6 +78,17 @@ async function postAuth<T>(path: string, body: unknown): Promise<T> {
   }
 
   return envelope.data as T;
+}
+
+async function postAuth<T>(path: string, body: unknown): Promise<T> {
+  const res = await fetch(authUrl(path), {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    credentials: "include"
+  });
+
+  return parseEnvelope<T>(res);
 }
 
 export async function registerRequest(input: {
@@ -93,4 +104,19 @@ export async function loginRequest(input: {
   password: string;
 }): Promise<AuthSuccessPayload> {
   return postAuth<AuthSuccessPayload>("/login", input);
+}
+
+export async function fetchCurrentUser(accessToken: string): Promise<AuthMePayload> {
+  const res = await fetch(authUrl("/me"), {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${accessToken}`
+    },
+    credentials: "include"
+  });
+  return parseEnvelope<AuthMePayload>(res);
+}
+
+export async function refreshAccessToken(): Promise<AuthRefreshPayload> {
+  return postAuth<AuthRefreshPayload>("/refresh", {});
 }

@@ -2,19 +2,20 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { AuthPageShell } from "@/components/auth/auth-page-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useAuth } from "@/hooks/use-auth";
 import { AuthApiError, registerRequest } from "@/lib/auth-client";
 import { signupFormSchema, type SignupFormValues } from "@/lib/auth-form-schemas";
-import { persistAccessToken } from "@/lib/auth-session";
 
 export function SignupForm() {
   const router = useRouter();
+  const { isAuthenticated, setAuthFromPayload, status } = useAuth();
   const [apiError, setApiError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -27,15 +28,21 @@ export function SignupForm() {
     defaultValues: { name: "", email: "", password: "" }
   });
 
+  useEffect(() => {
+    if (status !== "loading" && isAuthenticated) {
+      router.replace("/home");
+    }
+  }, [isAuthenticated, router, status]);
+
   const onSubmit = handleSubmit(async (values) => {
     setApiError(null);
     setSuccess(false);
     try {
       const data = await registerRequest(values);
-      persistAccessToken(data.accessToken);
+      setAuthFromPayload(data);
       setSuccess(true);
       window.setTimeout(() => {
-        router.push("/");
+        router.push("/home");
       }, 1200);
     } catch (e) {
       if (e instanceof AuthApiError) {
