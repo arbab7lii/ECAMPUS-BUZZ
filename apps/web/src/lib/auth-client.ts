@@ -9,6 +9,13 @@ export type AuthUser = {
   role: string;
   avatar: string | null;
   bio: string | null;
+  displayName: string | null;
+  username: string | null;
+  college: string | null;
+  branch: string | null;
+  graduationYear: number | null;
+  avatarUrl: string | null;
+  onboardingCompleted: boolean;
   createdAt: string;
   updatedAt: string;
 };
@@ -78,6 +85,27 @@ async function parseEnvelope<T>(res: Response): Promise<T> {
   }
 
   return envelope.data as T;
+}
+
+/** Authenticated JSON request to `/api/v1/*` (Bearer + cookies). */
+export async function apiV1Json<T>(
+  accessToken: string,
+  path: string,
+  init: RequestInit = {}
+): Promise<T> {
+  const headers = new Headers(init.headers);
+  headers.set("Authorization", `Bearer ${accessToken}`);
+  if (init.body) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const res = await fetch(`${getPublicApiBaseUrl()}/api/v1${path}`, {
+    ...init,
+    headers,
+    credentials: "include"
+  });
+
+  return parseEnvelope<T>(res);
 }
 
 async function postAuth<T>(path: string, body: unknown): Promise<T> {

@@ -95,16 +95,10 @@ export const authService = {
       throw appError(401, "Invalid email or password");
     }
 
-    const user: SafeUser = {
-      id: userWithHash.id,
-      name: userWithHash.name,
-      email: userWithHash.email,
-      role: userWithHash.role,
-      avatar: userWithHash.avatar,
-      bio: userWithHash.bio,
-      createdAt: userWithHash.createdAt,
-      updatedAt: userWithHash.updatedAt
-    };
+    const user = await authRepository.findById(userWithHash.id);
+    if (!user) {
+      throw appError(401, "Invalid email or password");
+    }
 
     const tokens = generateTokenPair(user.id, user.role);
     return { user, tokens };

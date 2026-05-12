@@ -1,5 +1,7 @@
-import { prisma } from "@/lib/prisma";
 import type { User } from "@prisma/client";
+
+import { prisma } from "@/lib/prisma";
+import { publicProfileSelect, type PublicProfile } from "@/modules/profile/profile.select";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -10,7 +12,7 @@ export interface CreateUserData {
 }
 
 /** The safe user object — never includes passwordHash */
-export type SafeUser = Omit<User, "passwordHash">;
+export type SafeUser = PublicProfile;
 
 // ─── Repository ───────────────────────────────────────────────────────────────
 
@@ -32,16 +34,7 @@ export const authRepository = {
   async findById(id: string): Promise<SafeUser | null> {
     return prisma.user.findUnique({
       where: { id },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        avatar: true,
-        bio: true,
-        createdAt: true,
-        updatedAt: true
-      }
+      select: publicProfileSelect
     });
   },
 
@@ -57,16 +50,7 @@ export const authRepository = {
         passwordHash: data.passwordHash
         // role defaults to STUDENT via Prisma schema default
       },
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        avatar: true,
-        bio: true,
-        createdAt: true,
-        updatedAt: true
-      }
+      select: publicProfileSelect
     });
   },
 
@@ -88,17 +72,7 @@ export const authRepository = {
     return prisma.user.update({
       where: { id },
       data,
-      select: {
-        id: true,
-        name: true,
-        email: true,
-        role: true,
-        avatar: true,
-        bio: true,
-        createdAt: true,
-        updatedAt: true
-      }
+      select: publicProfileSelect
     });
   }
 };
-

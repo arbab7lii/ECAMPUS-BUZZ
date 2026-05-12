@@ -15,7 +15,7 @@ import { loginFormSchema, type LoginFormValues } from "@/lib/auth-form-schemas";
 
 export function LoginForm() {
   const router = useRouter();
-  const { isAuthenticated, setAuthFromPayload, status } = useAuth();
+  const { isAuthenticated, setAuthFromPayload, status, user } = useAuth();
   const [apiError, setApiError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
 
@@ -29,10 +29,10 @@ export function LoginForm() {
   });
 
   useEffect(() => {
-    if (status !== "loading" && isAuthenticated) {
-      router.replace("/home");
+    if (status !== "loading" && isAuthenticated && user) {
+      router.replace(user.onboardingCompleted ? "/home" : "/onboarding");
     }
-  }, [isAuthenticated, router, status]);
+  }, [isAuthenticated, router, status, user]);
 
   const onSubmit = handleSubmit(async (values) => {
     setApiError(null);
@@ -42,7 +42,7 @@ export function LoginForm() {
       setAuthFromPayload(data);
       setSuccess(true);
       window.setTimeout(() => {
-        router.push("/home");
+        router.push(data.user.onboardingCompleted ? "/home" : "/onboarding");
       }, 900);
     } catch (e) {
       if (e instanceof AuthApiError) {

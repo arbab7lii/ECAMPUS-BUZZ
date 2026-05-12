@@ -27,6 +27,12 @@ export default function HomePage() {
             >
               Create account
             </Link>
+            <Link
+              href="/profile"
+              className="text-[hsl(var(--foreground))] underline-offset-4 hover:underline"
+            >
+              Profile
+            </Link>
           </p>
         </CardContent>
       </Card>

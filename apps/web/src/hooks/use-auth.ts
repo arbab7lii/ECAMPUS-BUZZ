@@ -10,6 +10,7 @@ type AuthContextValue = {
   status: "loading" | "authenticated" | "unauthenticated";
   isAuthenticated: boolean;
   setAuthFromPayload: (payload: AuthSuccessPayload) => void;
+  updateUser: (user: AuthUser) => void;
   clearAuth: () => void;
   rehydrateAuth: () => Promise<void>;
 };

@@ -24,21 +24,25 @@ function isUnauthorized(error: unknown): boolean {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>("loading");
-  const [user, setUser] = useState<AuthUser | null>(null);
+  const [user, setUserState] = useState<AuthUser | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
 
   const clearAuth = useCallback(() => {
     clearAccessToken();
     setAccessToken(null);
-    setUser(null);
+    setUserState(null);
     setStatus("unauthenticated");
   }, []);
 
   const setAuthFromPayload = useCallback((payload: AuthSuccessPayload) => {
     persistAccessToken(payload.accessToken);
     setAccessToken(payload.accessToken);
-    setUser(payload.user);
+    setUserState(payload.user);
     setStatus("authenticated");
+  }, []);
+
+  const updateUser = useCallback((next: AuthUser) => {
+    setUserState(next);
   }, []);
 
   const hydrateAuth = useCallback(async () => {
@@ -49,7 +53,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         const me = await fetchCurrentUser(storedToken);
         setAccessToken(storedToken);
-        setUser(me.user);
+        setUserState(me.user);
         setStatus("authenticated");
         return;
       } catch (error) {
@@ -65,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const me = await fetchCurrentUser(freshToken);
       persistAccessToken(freshToken);
       setAccessToken(freshToken);
-      setUser(me.user);
+      setUserState(me.user);
       setStatus("authenticated");
     } catch {
       clearAuth();
@@ -83,10 +87,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       status,
       isAuthenticated: status === "authenticated",
       setAuthFromPayload,
+      updateUser,
       clearAuth,
       rehydrateAuth: hydrateAuth
     }),
-    [accessToken, clearAuth, hydrateAuth, setAuthFromPayload, status, user]
+    [accessToken, clearAuth, hydrateAuth, setAuthFromPayload, status, updateUser, user]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

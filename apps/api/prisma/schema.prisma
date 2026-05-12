@@ -85,6 +85,16 @@ model User {
   role         UserRole @default(STUDENT)
   avatar       String?
   bio          String?
+  /// Public display name (may differ from legal/account `name` from registration).
+  displayName String?
+  /// Unique handle for profiles and future social features.
+  username    String?  @unique
+  college     String?
+  branch      String?
+  graduationYear Int?
+  /// CDN/storage URL placeholder until media upload is implemented.
+  avatarUrl   String?
+  onboardingCompleted Boolean @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
